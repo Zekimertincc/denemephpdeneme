@@ -1,6 +1,7 @@
 <?php
 include_once "modele_solde.php";
 include_once "vue_solde.php";
+require_once __DIR__ . '/../../composants/auth.php';
 
 class ContSolde {
     private $modele;
@@ -8,10 +9,8 @@ class ContSolde {
     private $action;
 
     public function __construct() {
-        if (!isset($_SESSION['idAsso'])) {
-            header('Location: index.php?module=connexion&action=choix_asso');
-            exit;
-        }
+        requireActive();
+        ensureAssociationSelected($_SESSION['id_user']);
         $this->modele = new ModeleSolde();
         $this->vue = new VueSolde();
         $this->action = isset($_GET['action']) ? $_GET['action'] : 'formulaire';

@@ -1,28 +1,21 @@
 <?php
 require_once 'modele_fournisseur.php';
 require_once 'vue_fournisseur.php';
+require_once __DIR__ . '/../../composants/auth.php';
 
 class ContFournisseur {
     private $modele;
     private $vue;
 
     public function __construct() {
-        if (!isset($_SESSION['idAsso'])) {
-            header('Location: index.php?module=connexion&action=choix_asso');
-            exit;
-        }
+        requireActive();
+        ensureAssociationSelected($_SESSION['id_user']);
+        requireRole(['gestionnaire', 'admin']);
         $this->modele = new ModeleFournisseur();
         $this->vue = new VueFournisseur();
     }
 
     public function exec_action() {
-        $role = isset($_SESSION['role']) ? $_SESSION['role'] : 'client';
-
-        if ($role === 'barman' || $role === 'client') {
-            header('Location: index.php?module=barman&action=caisse');
-            exit;
-        }
-
         $action = isset($_GET['action']) ? $_GET['action'] : 'liste';
 
         switch ($action) {

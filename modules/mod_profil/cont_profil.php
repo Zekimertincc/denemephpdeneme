@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/modele_profil.php';
 require_once __DIR__ . '/vue_profil.php';
+require_once __DIR__ . '/../../composants/auth.php';
 
 class ContProfil {
     private $modele;
@@ -15,10 +16,7 @@ class ContProfil {
         $action = isset($_GET['action']) ? $_GET['action'] : 'voir';
         $login = isset($_SESSION['login']) ? $_SESSION['login'] : null;
 
-        if (!$login) {
-            header("Location: index.php?module=connexion");
-            exit;
-        }
+        requireActive();
 
         switch ($action) {
             case 'voir':

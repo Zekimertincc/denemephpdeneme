@@ -1,16 +1,31 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['idAsso'])) {
-    $_SESSION['idAsso'] = 1;
-}
-
 require_once 'Connexion.php';
 require_once 'VueGenerique.php';
 require_once 'composants/menu/ControllerMenu.php';
 require_once 'composants/footer/ControllerFooter.php';
+require_once 'composants/auth.php';
 
 Connexion::initConnexion();
+
+$assoName = null;
+$showAssoLink = false;
+
+if (isset($_SESSION['id_user'])) {
+    if (!isset($_SESSION['idAsso']) || empty($_SESSION['idAsso'])) {
+        $selection = resolveAssociationSelection($_SESSION['id_user']);
+        if ($selection['status'] === 'choose') {
+            $showAssoLink = true;
+        } elseif ($selection['status'] === 'none') {
+            $_SESSION['flash_error'] = "Aucune association liée à votre compte.";
+        }
+    }
+
+    if (isset($_SESSION['idAsso']) && !empty($_SESSION['idAsso'])) {
+        $assoName = getAssociationName($_SESSION['idAsso']);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -25,13 +40,33 @@ Connexion::initConnexion();
 <main class="container py-5 app-container">
     <header class="header-bar d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
         <div class="brand-title">E-BUVETTE</div>
-        <?php
-        $contM = new ControllerMenu();
-        $contM->afficherMenu();
-        ?>
+        <div class="d-flex flex-wrap align-items-center gap-3 ms-auto">
+            <?php
+            $contM = new ControllerMenu();
+            $contM->afficherMenu();
+            ?>
+            <?php if (isset($_SESSION['login'])): ?>
+                <div class="small text-muted">
+                    Asso:
+                    <?php if ($assoName): ?>
+                        <?php echo htmlspecialchars($assoName); ?>
+                    <?php else: ?>
+                        (non sélectionnée)
+                    <?php endif; ?>
+                    <?php if ($showAssoLink): ?>
+                        - <a href="index.php?module=connexion&action=choix_asso">Sélectionner</a>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
     </header>
 
     <?php
+    if (isset($_SESSION['flash_error'])) {
+        echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['flash_error']) . '</div>';
+        unset($_SESSION['flash_error']);
+    }
+
     $module = isset($_GET['module']) ? $_GET['module'] : "default";
 
     switch ($module) {

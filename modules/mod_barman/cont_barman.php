@@ -1,16 +1,16 @@
 <?php
 require_once 'modele_barman.php';
 require_once 'vue_barman.php';
+require_once __DIR__ . '/../../composants/auth.php';
 
 class ContBarman {
     private $modele;
     private $vue;
 
     public function __construct() {
-        if (!isset($_SESSION['idAsso'])) {
-            header('Location: index.php?module=connexion&action=choix_asso');
-            exit;
-        }
+        requireActive();
+        ensureAssociationSelected($_SESSION['id_user']);
+        requireRole(['barman', 'gestionnaire', 'admin']);
         $this->modele = new ModeleBarman();
         $this->vue = new VueBarman();
     }

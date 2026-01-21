@@ -23,4 +23,9 @@ class Connexion
     {
         return self::$bdd;
     }
+
+    public static function getBddPublic()
+    {
+        return self::$bdd;
+    }
 }
