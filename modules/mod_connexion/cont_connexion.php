@@ -1,6 +1,7 @@
 <?php
 include_once "modele_connexion.php";
 include_once "vue_connexion.php";
+require_once __DIR__ . '/../../composants/auth.php';
 
 class ContConnexion {
     private $modele;
@@ -27,18 +28,36 @@ class ContConnexion {
                 break;
             case 'choix_asso':
                 if (isset($_SESSION['login'])) {
-                    $assos = $this->modele->getListeAssociations();
-                    $this->vue->afficherChoixAsso($assos);
+                    $selection = resolveAssociationSelection($_SESSION['id_user']);
+                    if ($selection['status'] === 'choose') {
+                        $this->vue->afficherChoixAsso($selection['associations']);
+                    } elseif ($selection['status'] === 'assigned') {
+                        header('Location: index.php');
+                        exit;
+                    } else {
+                        $_SESSION['flash_error'] = "Aucune association liée à votre compte.";
+                        header('Location: index.php');
+                        exit;
+                    }
                 } else {
                     header('Location: index.php?module=connexion&action=connexion');
                 }
                 break;
             case 'valider_choix':
-                if (isset($_GET['id'])) {
-                    $_SESSION['idAsso'] = $_GET['id'];
-                    header('Location: index.php');
-                    exit;
+                if (isset($_GET['id'], $_SESSION['id_user'])) {
+                    $assos = $this->modele->getListeAssociations($_SESSION['id_user']);
+                    $idChoisi = $_GET['id'];
+                    $idsAutorises = array_column($assos, 'idAsso');
+
+                    if (in_array($idChoisi, $idsAutorises, false)) {
+                        $_SESSION['idAsso'] = $idChoisi;
+                        header('Location: index.php');
+                        exit;
+                    }
                 }
+                $_SESSION['flash_error'] = "Association invalide.";
+                header('Location: index.php');
+                exit;
                 break;
             case 'deconnexion':
                 $this->modele->deconnexion();

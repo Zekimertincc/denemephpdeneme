@@ -24,6 +24,12 @@ class VueInscription {
                 
                 <label>Mot de passe :</label><br>
                 <input type='password' name='password' required style='width: 100%; margin-bottom: 10px;'><br>
+
+                <label>Rôle :</label><br>
+                <select name='role' required style='width: 100%; margin-bottom: 10px;'>
+                    <option value='client'>Client</option>
+                    <option value='gestionnaire'>Gestionnaire (validation requise)</option>
+                </select><br>
                 
                 <input type='submit' value='Créer le compte' style='padding: 10px 20px; background: #27ae60; color: white; border: none; cursor: pointer;'>
             </form>

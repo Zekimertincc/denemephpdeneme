@@ -1,6 +1,7 @@
 <?php
 require_once 'modele_historique.php';
 require_once 'vue_historique.php';
+require_once __DIR__ . '/../../composants/auth.php';
 
 class ContHistorique {
     private $modele;
@@ -8,10 +9,8 @@ class ContHistorique {
     private $action;
 
     public function __construct() {
-        if (!isset($_SESSION['idAsso'])) {
-            header('Location: index.php?module=connexion&action=choix_asso');
-            exit;
-        }
+        requireActive();
+        ensureAssociationSelected($_SESSION['id_user']);
         $this->modele = new ModeleHistorique();
         $this->vue = new VueHistorique();
         $this->action = isset($_GET['action']) ? $_GET['action'] : 'liste';
