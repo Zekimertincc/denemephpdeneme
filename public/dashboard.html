@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>E-BUVETTE - Dashboard</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body>
+  <main class="container py-5 app-container">
+    <header class="header-bar d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+      <div class="brand-title">E-BUVETTE</div>
+      <nav class="d-flex gap-4 fw-semibold">
+        <a class="nav-link p-0" href="#">Produits</a>
+        <a class="nav-link p-0" href="#">Fournisseurs</a>
+        <a class="nav-link p-0" href="#">Rapports</a>
+        <a class="nav-link p-0" href="#">Deconnexion</a>
+      </nav>
+    </header>
+
+    <section class="row g-4 mb-4">
+      <div class="col-md-3">
+        <div class="card-soft stat-card d-flex flex-column justify-content-center text-center p-3">
+          <div class="text-muted">Ventes du jour</div>
+          <div class="fs-4 fw-bold">200€</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card-soft stat-card d-flex flex-column justify-content-center text-center p-3">
+          <div class="text-muted">Client actifs</div>
+          <div class="fs-4 fw-bold">200€</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card-soft stat-card d-flex flex-column justify-content-center text-center p-3">
+          <div class="text-muted">Produits en alerte</div>
+          <div class="fs-4 fw-bold">3</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card-soft stat-card d-flex flex-column justify-content-center text-center p-3">
+          <div class="text-muted">Tresorie totale</div>
+          <div class="fs-4 fw-bold">1200€</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card-soft p-4 mb-4">
+      <h2 class="section-title h5 mb-3">Produits en alerte stock bas</h2>
+      <div class="table-responsive">
+        <table class="table mb-0">
+          <thead>
+            <tr>
+              <th>Produit</th>
+              <th>Stock</th>
+              <th>Seuil</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>x</td>
+              <td>x</td>
+              <td>x</td>
+              <td>x</td>
+            </tr>
+            <tr>
+              <td>x</td>
+              <td>x</td>
+              <td>x</td>
+              <td>x</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="row g-4 align-items-center">
+      <div class="col-md-5">
+        <div class="card-soft graph-placeholder">graph vente</div>
+      </div>
+      <div class="col-md-7 d-flex justify-content-md-end">
+        <button class="btn btn-dark-pill">Telecharger rapport PDF</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
